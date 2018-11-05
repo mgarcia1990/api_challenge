@@ -7,7 +7,7 @@ Rails.application.routes.draw do
       get :movies_as_producer, on: :member
     end
     resources :movies do
-      post :people, on: :member
+      post :crew, on: :member
       get :casting, on: :member
       get :directors, on: :member
       get :producers, on: :member
