@@ -1,5 +1,7 @@
 module V1
     class MoviesController < ApplicationController
+      before_action :authenticate_user!, only: [:create, :update, :destroy,
+                                                :crew, :destroy_person]
       before_action :load_movie, only: [:show, :update, :destroy,
                                         :crew, :destroy_person,
                                         :casting, :directors, :prducers]
