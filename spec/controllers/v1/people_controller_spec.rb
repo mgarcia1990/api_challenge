@@ -5,7 +5,7 @@ RSpec.describe V1::PeopleController, type: :controller do
     let!(:person_a) { FactoryBot.create(:person) }
     let!(:person_b) { FactoryBot.create(:person) }
 
-    let(:params) { 
+    let(:params) {
         {
             first_name: 'First',
             last_name: 'Last'
@@ -85,7 +85,7 @@ RSpec.describe V1::PeopleController, type: :controller do
             expect(response.status).to eq(204)
         end
 
-        it 'should destroy person' do            
+        it 'should destroy person' do
             expect{
                 delete :destroy, params: { id: person_a.id }, format: :js
             }.to change(Person, :count).to(1)
@@ -97,4 +97,124 @@ RSpec.describe V1::PeopleController, type: :controller do
         end
     end
 
+    describe 'movies' do
+      let(:movie_params) {
+          {
+            id: person_a.id,
+            movie_id: FactoryBot.create(:movie).id,
+            role: role
+          }
+      }
+
+      subject { post :movies, params: movie_params, format: :json }
+
+      context 'as star' do
+        let(:role) { 'star' }
+
+          it 'returns 200' do
+              subject
+              expect(response.status).to eq(200)
+          end
+
+          it 'add movies to person filmography' do
+              expect{
+                  subject
+              }.to change(person_a.movies_as_actor_actress, :count).by(1)
+          end
+      end
+
+      context 'as director' do
+        let(:role) { 'director' }
+
+          it 'returns 200' do
+              subject
+              expect(response.status).to eq(200)
+          end
+
+          it 'add movies to person filmography' do
+              expect{
+                  subject
+              }.to change(person_a.movies_as_director, :count).by(1)
+          end
+      end
+
+      context 'as producer' do
+        let(:role) { 'producer' }
+
+          it 'returns 200' do
+              subject
+              expect(response.status).to eq(200)
+          end
+
+          it 'add movies to person filmography' do
+              expect{
+                  subject
+              }.to change(person_a.movies_as_producer, :count).by(1)
+          end
+      end
+    end
+
+    describe 'destroy_movies' do
+      let(:movie) { FactoryBot.create(:movie) }
+      let(:movie_params) {
+          {
+            id: person_a.id,
+            movie_id: movie.id,
+            role: role
+          }
+      }
+
+      before {
+        ParticipatingMovie.roles.values.each do |role|
+          ParticipatingMovie.create! person: person_a, movie: movie, role: role
+        end
+      }
+
+      subject { delete :destroy_movie, params: movie_params, format: :json }
+
+      context 'as star' do
+        let(:role) { 'star' }
+
+          it 'returns 200' do
+              subject
+              expect(response.status).to eq(200)
+          end
+
+          it 'removes movie from person filmography' do
+              expect{
+                  subject
+              }.to change(person_a.movies_as_actor_actress, :count).by(-1)
+          end
+      end
+
+      context 'as director' do
+        let(:role) { 'director' }
+
+          it 'returns 200' do
+              subject
+              expect(response.status).to eq(200)
+          end
+
+          it 'removes movie from person filmography' do
+              expect{
+                  subject
+              }.to change(person_a.movies_as_director, :count).by(-1)
+          end
+      end
+
+      context 'as producer' do
+        let(:role) { 'producer' }
+
+          it 'returns 200' do
+              subject
+              expect(response.status).to eq(200)
+          end
+
+          it 'removes movie from person filmography' do
+              expect{
+                  subject
+              }.to change(person_a.movies_as_producer, :count).by(-1)
+          end
+      end
+    end
 end
