@@ -1,6 +1,6 @@
 Rails.application.routes.draw do
   devise_for :users
-  
+
   namespace :v1 do
     resources :people do
       post :movies, on: :member
@@ -15,6 +15,6 @@ Rails.application.routes.draw do
       get :producers, on: :member
     end
     delete 'people/:id/movies/:movie_id/role/:role', to: 'people#destroy_movie'
-    delete 'movies/:id/people/:person_id/role/:role', to: 'movies#destroy_person'
+    delete 'movies/:id/crew/:person_id/role/:role', to: 'movies#destroy_person'
   end
 end

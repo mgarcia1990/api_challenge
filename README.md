@@ -1,24 +1,35 @@
 # README
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
+MDB api challenge endpoints notes and documentation
 
-Things you may want to cover:
+Quick notes:
 
-* Ruby version
+* Both people & movies support all CRUD operations through standard RoR routes & conventions.
 
-* System dependencies
+* Every model and controller action were properly tested using rspec framework.
 
-* Configuration
+* For time purposes user endpoints were not implemented.
 
-* Database creation
+People extra endpoints:
 
-* Database initialization
+* `POST` /movies. Requires movie ID and role name. This will add the corresponding movie to the person filmography under the specified role.
 
-* How to run the test suite
+* `DELETE` /movies. Requires movie ID and role name. This will remove the corresponding movie from the person filmography as the specified role.
 
-* Services (job queues, cache servers, search engines, etc.)
+* `GET` /movies_as_actor_actress. Returns the full list of movies starring the given person.
 
-* Deployment instructions
+* `GET` /movies_as_director. Returns the full list of movies directed by the given person.
 
-* ...
+* `GET` /movies_as_producer. Returns the full list of movies produced by the given person.
+
+Movies extra endpoints:
+
+* `POST` /crew. Requires person ID and role name. This will add the corresponding stuff member to the movie crew under the specified role.
+
+* `DELETE` /crew. Requires person ID and role name. This will remove the corresponding stuff member from the movie crew as the specified role.
+
+* `GET` /casting. Returns the full list people starring in this movie.
+
+* `GET` /directors. Returns the full list of directors.
+
+* `GET` /producers. Returns the full list of producers.
