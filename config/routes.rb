@@ -1,6 +1,18 @@
 Rails.application.routes.draw do
   namespace :v1 do
-    resources :people
-    resources :movies
+    resources :people do
+      post :movies, on: :member
+      get :movies_as_actor_actress, on: :member
+      get :movies_as_director, on: :member
+      get :movies_as_producer, on: :member
+    end
+    resources :movies do
+      post :people, on: :member
+      get :casting, on: :member
+      get :directors, on: :member
+      get :producers, on: :member
+    end
+    delete 'people/:id/movies/:movie_id/role/:role', to: 'people#destroy_movie'
+    delete 'movies/:id/people/:person_id/role/:role', to: 'movies#destroy_person'
   end
 end

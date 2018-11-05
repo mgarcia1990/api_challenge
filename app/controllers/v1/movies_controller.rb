@@ -1,6 +1,9 @@
 module V1
     class MoviesController < ApplicationController
-        before_action :load_movie, only: [:show, :update, :destroy]
+        before_action :load_movie, only: [:show, :update, :destroy,
+                                          :casting. :directors, :prducers]
+
+        INCLUDES = [:casting, :directors, :producers]
 
         def index
             @movies = Movie.order(:title, :release_year)
@@ -8,7 +11,20 @@ module V1
         end
 
         def show
-            render json: @movie.to_json, status: :ok
+            render json: @movie.to_json(include: INCLUDES),
+                   status: :ok
+        end
+
+        def casting
+            render json: @movie.casting.to_json, status: :ok
+        end
+
+        def directors
+            render json: @movie.directors.to_json, status: :ok
+        end
+
+        def producers
+            render json: @movie.producers.to_json, status: :ok
         end
 
         def create
