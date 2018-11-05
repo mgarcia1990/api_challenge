@@ -9,6 +9,7 @@ Quick notes:
 * Every model and controller action were properly tested using rspec framework.
 
 * For time purposes user endpoints were not implemented.
+  However, authentication is requried and tested, so in order to access MDB sensible endpoints a User and token must be created using rails console.
 
 People extra endpoints:
 
@@ -33,3 +34,9 @@ Movies extra endpoints:
 * `GET` /directors. Returns the full list of directors.
 
 * `GET` /producers. Returns the full list of producers.
+
+Used libraries notes:
+
+* `Devise & Tiddle` Devise was selected for authenticating as it is one of the msot standard RoR libraries for this, and provides and easy a quick way to implement robust auth.Tiddle wasusedon top it to add token based authentication.
+
+* `Blueprinter` It was selected due to being the lightest of AMS suggestions as AMS is currently being under major changes. In case of having to deal with more complex models, JB or Netflix FastJson would probably had been use.
