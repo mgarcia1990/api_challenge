@@ -10,7 +10,7 @@ module V1
 
       def index
         @movies = Movie.order(:title, :release_year)
-        render json: @movies.to_json, status: :ok
+        render json: MovieBlueprint.render(@movies), status: :ok
       end
 
       def show
@@ -61,7 +61,7 @@ module V1
       end
 
       def render_movie_and_crew
-        render json: @movie.to_json(include: CREW),
+        render json: MovieBlueprint.render(@movie, view: :extended),
                status: :ok
       end
 
